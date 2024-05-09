@@ -1,0 +1,425 @@
+﻿
+#include "stdinx.h"
+#include "image.h"
+#include "img.h"
+
+
+
+extern const uint8_t data_amselect_a_off[5866];
+extern const uint8_t data_amselect_a_on[6603];
+extern const uint8_t data_amselect_m_off[5878];
+extern const uint8_t data_amselect_m_on[6615];
+extern const uint8_t data_a_damper_a_off[7953];
+extern const uint8_t data_a_damper_a_on[7953];
+extern const uint8_t data_a_damper_b_off[15802];
+extern const uint8_t data_a_damper_b_on[15802];
+extern const uint8_t data_a_deleate_a_off[4508];
+extern const uint8_t data_a_deleate_a_on[4508];
+extern const uint8_t data_bulekey_d_a_off[1545];
+extern const uint8_t data_bulekey_d_on[2185];
+extern const uint8_t data_bulekey_u_a_off[1545];
+extern const uint8_t data_bulekey_u_on[2185];
+extern const uint8_t data_buzzer_a_off[5549];
+extern const uint8_t data_buzzer_a_on[5549];
+extern const uint8_t data_buzzer_b_off[11940];
+extern const uint8_t data_buzzer_b_on[11940];
+extern const uint8_t data_buzzer_c_off[6487];
+extern const uint8_t data_cd_deleate_a_off[5700];
+extern const uint8_t data_cd_deleate_a_on[6473];
+extern const uint8_t data_cd_deleate_b_off[6187];
+extern const uint8_t data_cd_deleate_b_on[6984];
+extern const uint8_t data_cd_edit_a_off[5496];
+extern const uint8_t data_cd_edit_a_on[6269];
+extern const uint8_t data_cd_edit_b_off[5476];
+extern const uint8_t data_cd_edit_b_on[6249];
+extern const uint8_t data_cd_listback_a_off[1621];
+extern const uint8_t data_cd_listback_a_on[1998];
+extern const uint8_t data_cd_listback_b_off[1605];
+extern const uint8_t data_cd_listback_b_on[1982];
+extern const uint8_t data_change_button_off[2697];
+extern const uint8_t data_change_button_on[2697];
+extern const uint8_t data_clear_a_off[5104];
+extern const uint8_t data_clear_a_on[5104];
+extern const uint8_t data_clear_c_off[5520];
+extern const uint8_t data_codedeleate_a_off[6425];
+extern const uint8_t data_codedeleate_a_on[7234];
+extern const uint8_t data_codedeleate_b_off[6429];
+extern const uint8_t data_codedeleate_s_off[6102];
+extern const uint8_t data_codedeleate_s_on[6839];
+extern const uint8_t data_codedetail_a_off[6135];
+extern const uint8_t data_codedetail_a_on[7004];
+extern const uint8_t data_codedetail_b_off[6083];
+extern const uint8_t data_codedetail_s_off[5520];
+extern const uint8_t data_codedetail_s_on[6269];
+extern const uint8_t data_codehome_a_off[4879];
+extern const uint8_t data_codehome_a_on[5616];
+extern const uint8_t data_codehome_b_off[4823];
+extern const uint8_t data_codelist_leftkey[712];
+extern const uint8_t data_codelist_leftkey_on[564];
+extern const uint8_t data_codelist_rightkey[712];
+extern const uint8_t data_codelist_rightkey_on[568];
+extern const uint8_t data_contents_a_off[4566];
+extern const uint8_t data_contents_a_on[5303];
+extern const uint8_t data_contents_b_off[4758];
+extern const uint8_t data_contents_s_off[4264];
+extern const uint8_t data_contents_s_on[4929];
+extern const uint8_t data_c_setting_a_off[199];
+extern const uint8_t data_c_setting_a_on[199];
+extern const uint8_t data_c_setting_c_off[199];
+extern const uint8_t data_c_temp_a_off[7018];
+extern const uint8_t data_c_temp_a_on[7018];
+extern const uint8_t data_c_temp_b_off[14786];
+extern const uint8_t data_c_temp_b_on[14786];
+extern const uint8_t data_deleate_a_off[3800];
+extern const uint8_t data_deleate_a_on[3800];
+extern const uint8_t data_eco_a_off[7527];
+extern const uint8_t data_eco_a_on[7527];
+extern const uint8_t data_eco_b_off[14877];
+extern const uint8_t data_eco_b_on[14877];
+extern const uint8_t data_enter_a_off[1928];
+extern const uint8_t data_enter_a_on[1888];
+extern const uint8_t data_enter_button_off[2075];
+extern const uint8_t data_enter_button_on[2075];
+extern const uint8_t data_enter_b_off[1928];
+extern const uint8_t data_enter_b_on[1936];
+extern const uint8_t data_home_a_off[3278];
+extern const uint8_t data_home_a_on[3931];
+extern const uint8_t data_hyphen_a_off[527];
+extern const uint8_t data_hyphen_a_on[527];
+extern const uint8_t data_katakana_a_off[2770];
+extern const uint8_t data_katakana_a_on[2770];
+extern const uint8_t data_katakana_b_off[5514];
+extern const uint8_t data_key_a_off[90];
+extern const uint8_t data_key_a_on[90];
+extern const uint8_t data_lamp_a_off[4290];
+extern const uint8_t data_lamp_a_on[4290];
+extern const uint8_t data_lamp_b_off[9210];
+extern const uint8_t data_lamp_b_on[9210];
+extern const uint8_t data_left1_a_off[1138];
+extern const uint8_t data_left1_a_on[1138];
+extern const uint8_t data_left2_a_off[1542];
+extern const uint8_t data_left2_a_on[1542];
+extern const uint8_t data_logo_c_temp[2656];
+extern const uint8_t data_logo_c_temp1[3888];
+extern const uint8_t data_logo_c_temp2[3028];
+extern const uint8_t data_logo_details[4096];
+extern const uint8_t data_logo_ecobacken[25578];
+extern const uint8_t data_logo_home[7107];
+extern const uint8_t data_logo_h_l1_high[3142];
+extern const uint8_t data_logo_h_l2_medium[2214];
+extern const uint8_t data_logo_h_l3_low[1324];
+extern const uint8_t data_logo_h_s1_high[3718];
+extern const uint8_t data_logo_h_s2_medium[2642];
+extern const uint8_t data_logo_h_s3_low[1593];
+extern const uint8_t data_logo_lh[2969];
+extern const uint8_t data_logo_l_heater[2454];
+extern const uint8_t data_logo_mode_auto[1240];
+extern const uint8_t data_logo_mode_close[317];
+extern const uint8_t data_logo_mode_coretemp[1299];
+extern const uint8_t data_logo_mode_high[944];
+extern const uint8_t data_logo_mode_low[336];
+extern const uint8_t data_logo_mode_medium[650];
+extern const uint8_t data_logo_mode_natural[1215];
+extern const uint8_t data_logo_mode_none[116];
+extern const uint8_t data_logo_mode_off[157];
+extern const uint8_t data_logo_mode_off_l[88];
+extern const uint8_t data_logo_mode_off_s[139];
+extern const uint8_t data_logo_mode_on[2292];
+extern const uint8_t data_logo_mode_on_l[1176];
+extern const uint8_t data_logo_mode_on_s[2040];
+extern const uint8_t data_logo_mode_time[762];
+extern const uint8_t data_logo_mode_window[953];
+extern const uint8_t data_logo_notice[5541];
+extern const uint8_t data_logo_n_change[1429];
+extern const uint8_t data_logo_process_select[5111];
+extern const uint8_t data_logo_p_edit[3812];
+extern const uint8_t data_logo_shichiyo[13668];
+extern const uint8_t data_logo_steam[637];
+extern const uint8_t data_logo_tabletitle1[2972];
+extern const uint8_t data_logo_tabletitle2[2317];
+extern const uint8_t data_logo_tabletitle3[2191];
+extern const uint8_t data_logo_tabletitle4[2919];
+extern const uint8_t data_logo_tabletitle5[1141];
+extern const uint8_t data_logo_timer1[4994];
+extern const uint8_t data_logo_timer2[3860];
+extern const uint8_t data_logo_uh[2525];
+extern const uint8_t data_logo_u_heater[2371];
+extern const uint8_t data_logo_u_or_l[27];
+extern const uint8_t data_logo_u_or_l_l[27];
+extern const uint8_t data_logo_u_or_l_s[27];
+extern const uint8_t data_lowercase_a_off[2892];
+extern const uint8_t data_lowercase_a_on[2892];
+extern const uint8_t data_lowercase_b_off[5614];
+extern const uint8_t data_modeselect_a_off[1229];
+extern const uint8_t data_modeselect_a_on[1762];
+extern const uint8_t data_modeselect_b_off[1213];
+extern const uint8_t data_modewindow_b[1343];
+extern const uint8_t data_modewindow_g[1585];
+extern const uint8_t data_modewindow_r[1526];
+extern const uint8_t data_morning_a_off[5346];
+extern const uint8_t data_morning_a_on[5346];
+extern const uint8_t data_m_select_a_off[6084];
+extern const uint8_t data_m_select_a_on[6060];
+extern const uint8_t data_namechange_a_off[5594];
+extern const uint8_t data_namechange_a_on[6403];
+extern const uint8_t data_namechange_b_off[5566];
+extern const uint8_t data_namechange_s_off[4952];
+extern const uint8_t data_namechange_s_on[5665];
+extern const uint8_t data_noticeselect_a_off[5476];
+extern const uint8_t data_noticeselect_a_on[6218];
+extern const uint8_t data_noticeselect_b_off[5500];
+extern const uint8_t data_noticeselect_b_on[6225];
+extern const uint8_t data_n_damper_a_off[6598];
+extern const uint8_t data_n_damper_a_on[6598];
+extern const uint8_t data_n_damper_b_off[12582];
+extern const uint8_t data_n_damper_b_on[12582];
+extern const uint8_t data_option_a_off[4440];
+extern const uint8_t data_option_a_on[4440];
+extern const uint8_t data_recipe_a_off[5355];
+extern const uint8_t data_recipe_a_on[5355];
+extern const uint8_t data_recipe_c_off[3850];
+extern const uint8_t data_return_a_off[2804];
+extern const uint8_t data_return_a_on[2684];
+extern const uint8_t data_return_b_off[2776];
+extern const uint8_t data_return_b_on[2812];
+extern const uint8_t data_right1_a_off[1174];
+extern const uint8_t data_right1_a_on[1174];
+extern const uint8_t data_right2_a_off[1603];
+extern const uint8_t data_right2_a_on[1603];
+extern const uint8_t data_sampleb_button_off[3554];
+extern const uint8_t data_sampleb_button_on[3554];
+extern const uint8_t data_sample_button_off[2601];
+extern const uint8_t data_sample_button_on[2601];
+extern const uint8_t data_Sample_ex[5420];
+extern const uint8_t data_Sample_ex2[5411];
+extern const uint8_t data_select_a_off[1545];
+extern const uint8_t data_select_a_on[1521];
+extern const uint8_t data_select_b_off[1545];
+extern const uint8_t data_select_b_on[1553];
+extern const uint8_t data_skip_a_off[5014];
+extern const uint8_t data_skip_a_on[5014];
+extern const uint8_t data_start_a_off[5706];
+extern const uint8_t data_start_a_on[5706];
+extern const uint8_t data_start_b_off[11918];
+extern const uint8_t data_start_c_off[4054];
+extern const uint8_t data_steam_a_off[3744];
+extern const uint8_t data_steam_a_on[3744];
+extern const uint8_t data_steam_b_off[7771];
+extern const uint8_t data_tab_a_off[457];
+extern const uint8_t data_tab_a_on[891];
+extern const uint8_t data_tab_b_off[457];
+extern const uint8_t data_under_a_off[510];
+extern const uint8_t data_under_a_on[510];
+extern const uint8_t data_uppercase_a_off[3488];
+extern const uint8_t data_uppercase_a_on[3488];
+extern const uint8_t data_uppercase_b_off[6286];
+const struct img_data_struct img_data[] = {
+	{(uint8_t *)&(data_amselect_a_off) , 5866}, 
+	{(uint8_t *)&(data_amselect_a_on) , 6603}, 
+	{(uint8_t *)&(data_amselect_m_off) , 5878}, 
+	{(uint8_t *)&(data_amselect_m_on) , 6615}, 
+	{(uint8_t *)&(data_a_damper_a_off) , 7953}, 
+	{(uint8_t *)&(data_a_damper_a_on) , 7953}, 
+	{(uint8_t *)&(data_a_damper_b_off) , 15802}, 
+	{(uint8_t *)&(data_a_damper_b_on) , 15802}, 
+	{(uint8_t *)&(data_a_deleate_a_off) , 4508}, 
+	{(uint8_t *)&(data_a_deleate_a_on) , 4508}, 
+	{(uint8_t *)&(data_bulekey_d_a_off) , 1545}, 
+	{(uint8_t *)&(data_bulekey_d_on) , 2185}, 
+	{(uint8_t *)&(data_bulekey_u_a_off) , 1545}, 
+	{(uint8_t *)&(data_bulekey_u_on) , 2185}, 
+	{(uint8_t *)&(data_buzzer_a_off) , 5549}, 
+	{(uint8_t *)&(data_buzzer_a_on) , 5549}, 
+	{(uint8_t *)&(data_buzzer_b_off) , 11940}, 
+	{(uint8_t *)&(data_buzzer_b_on) , 11940}, 
+	{(uint8_t *)&(data_buzzer_c_off) , 6487}, 
+	{(uint8_t *)&(data_cd_deleate_a_off) , 5700}, 
+	{(uint8_t *)&(data_cd_deleate_a_on) , 6473}, 
+	{(uint8_t *)&(data_cd_deleate_b_off) , 6187}, 
+	{(uint8_t *)&(data_cd_deleate_b_on) , 6984}, 
+	{(uint8_t *)&(data_cd_edit_a_off) , 5496}, 
+	{(uint8_t *)&(data_cd_edit_a_on) , 6269}, 
+	{(uint8_t *)&(data_cd_edit_b_off) , 5476}, 
+	{(uint8_t *)&(data_cd_edit_b_on) , 6249}, 
+	{(uint8_t *)&(data_cd_listback_a_off) , 1621}, 
+	{(uint8_t *)&(data_cd_listback_a_on) , 1998}, 
+	{(uint8_t *)&(data_cd_listback_b_off) , 1605}, 
+	{(uint8_t *)&(data_cd_listback_b_on) , 1982}, 
+	{(uint8_t *)&(data_change_button_off) , 2697}, 
+	{(uint8_t *)&(data_change_button_on) , 2697}, 
+	{(uint8_t *)&(data_clear_a_off) , 5104}, 
+	{(uint8_t *)&(data_clear_a_on) , 5104}, 
+	{(uint8_t *)&(data_clear_c_off) , 5520}, 
+	{(uint8_t *)&(data_codedeleate_a_off) , 6425}, 
+	{(uint8_t *)&(data_codedeleate_a_on) , 7234}, 
+	{(uint8_t *)&(data_codedeleate_b_off) , 6429}, 
+	{(uint8_t *)&(data_codedeleate_s_off) , 6102}, 
+	{(uint8_t *)&(data_codedeleate_s_on) , 6839}, 
+	{(uint8_t *)&(data_codedetail_a_off) , 6135}, 
+	{(uint8_t *)&(data_codedetail_a_on) , 7004}, 
+	{(uint8_t *)&(data_codedetail_b_off) , 6083}, 
+	{(uint8_t *)&(data_codedetail_s_off) , 5520}, 
+	{(uint8_t *)&(data_codedetail_s_on) , 6269}, 
+	{(uint8_t *)&(data_codehome_a_off) , 4879}, 
+	{(uint8_t *)&(data_codehome_a_on) , 5616}, 
+	{(uint8_t *)&(data_codehome_b_off) , 4823}, 
+	{(uint8_t *)&(data_codelist_leftkey) , 712}, 
+	{(uint8_t *)&(data_codelist_leftkey_on) , 564}, 
+	{(uint8_t *)&(data_codelist_rightkey) , 712}, 
+	{(uint8_t *)&(data_codelist_rightkey_on) , 568}, 
+	{(uint8_t *)&(data_contents_a_off) , 4566}, 
+	{(uint8_t *)&(data_contents_a_on) , 5303}, 
+	{(uint8_t *)&(data_contents_b_off) , 4758}, 
+	{(uint8_t *)&(data_contents_s_off) , 4264}, 
+	{(uint8_t *)&(data_contents_s_on) , 4929}, 
+	{(uint8_t *)&(data_c_setting_a_off) , 199}, 
+	{(uint8_t *)&(data_c_setting_a_on) , 199}, 
+	{(uint8_t *)&(data_c_setting_c_off) , 199}, 
+	{(uint8_t *)&(data_c_temp_a_off) , 7018}, 
+	{(uint8_t *)&(data_c_temp_a_on) , 7018}, 
+	{(uint8_t *)&(data_c_temp_b_off) , 14786}, 
+	{(uint8_t *)&(data_c_temp_b_on) , 14786}, 
+	{(uint8_t *)&(data_deleate_a_off) , 3800}, 
+	{(uint8_t *)&(data_deleate_a_on) , 3800}, 
+	{(uint8_t *)&(data_eco_a_off) , 7527}, 
+	{(uint8_t *)&(data_eco_a_on) , 7527}, 
+	{(uint8_t *)&(data_eco_b_off) , 14877}, 
+	{(uint8_t *)&(data_eco_b_on) , 14877}, 
+	{(uint8_t *)&(data_enter_a_off) , 1928}, 
+	{(uint8_t *)&(data_enter_a_on) , 1888}, 
+	{(uint8_t *)&(data_enter_button_off) , 2075}, 
+	{(uint8_t *)&(data_enter_button_on) , 2075}, 
+	{(uint8_t *)&(data_enter_b_off) , 1928}, 
+	{(uint8_t *)&(data_enter_b_on) , 1936}, 
+	{(uint8_t *)&(data_home_a_off) , 3278}, 
+	{(uint8_t *)&(data_home_a_on) , 3931}, 
+	{(uint8_t *)&(data_hyphen_a_off) , 527}, 
+	{(uint8_t *)&(data_hyphen_a_on) , 527}, 
+	{(uint8_t *)&(data_katakana_a_off) , 2770}, 
+	{(uint8_t *)&(data_katakana_a_on) , 2770}, 
+	{(uint8_t *)&(data_katakana_b_off) , 5514}, 
+	{(uint8_t *)&(data_key_a_off) , 90}, 
+	{(uint8_t *)&(data_key_a_on) , 90}, 
+	{(uint8_t *)&(data_lamp_a_off) , 4290}, 
+	{(uint8_t *)&(data_lamp_a_on) , 4290}, 
+	{(uint8_t *)&(data_lamp_b_off) , 9210}, 
+	{(uint8_t *)&(data_lamp_b_on) , 9210}, 
+	{(uint8_t *)&(data_left1_a_off) , 1138}, 
+	{(uint8_t *)&(data_left1_a_on) , 1138}, 
+	{(uint8_t *)&(data_left2_a_off) , 1542}, 
+	{(uint8_t *)&(data_left2_a_on) , 1542}, 
+	{(uint8_t *)&(data_logo_c_temp) , 2656}, 
+	{(uint8_t *)&(data_logo_c_temp1) , 3888}, 
+	{(uint8_t *)&(data_logo_c_temp2) , 3028}, 
+	{(uint8_t *)&(data_logo_details) , 4096}, 
+	{(uint8_t *)&(data_logo_ecobacken) , 25578}, 
+	{(uint8_t *)&(data_logo_home) , 7107}, 
+	{(uint8_t *)&(data_logo_h_l1_high) , 3142}, 
+	{(uint8_t *)&(data_logo_h_l2_medium) , 2214}, 
+	{(uint8_t *)&(data_logo_h_l3_low) , 1324}, 
+	{(uint8_t *)&(data_logo_h_s1_high) , 3718}, 
+	{(uint8_t *)&(data_logo_h_s2_medium) , 2642}, 
+	{(uint8_t *)&(data_logo_h_s3_low) , 1593}, 
+	{(uint8_t *)&(data_logo_lh) , 2969}, 
+	{(uint8_t *)&(data_logo_l_heater) , 2454}, 
+	{(uint8_t *)&(data_logo_mode_auto) , 1240}, 
+	{(uint8_t *)&(data_logo_mode_close) , 317}, 
+	{(uint8_t *)&(data_logo_mode_coretemp) , 1299}, 
+	{(uint8_t *)&(data_logo_mode_high) , 944}, 
+	{(uint8_t *)&(data_logo_mode_low) , 336}, 
+	{(uint8_t *)&(data_logo_mode_medium) , 650}, 
+	{(uint8_t *)&(data_logo_mode_natural) , 1215}, 
+	{(uint8_t *)&(data_logo_mode_none) , 116}, 
+	{(uint8_t *)&(data_logo_mode_off) , 157}, 
+	{(uint8_t *)&(data_logo_mode_off_l) , 88}, 
+	{(uint8_t *)&(data_logo_mode_off_s) , 139}, 
+	{(uint8_t *)&(data_logo_mode_on) , 2292}, 
+	{(uint8_t *)&(data_logo_mode_on_l) , 1176}, 
+	{(uint8_t *)&(data_logo_mode_on_s) , 2040}, 
+	{(uint8_t *)&(data_logo_mode_time) , 762}, 
+	{(uint8_t *)&(data_logo_mode_window) , 953}, 
+	{(uint8_t *)&(data_logo_notice) , 5541}, 
+	{(uint8_t *)&(data_logo_n_change) , 1429}, 
+	{(uint8_t *)&(data_logo_process_select) , 5111}, 
+	{(uint8_t *)&(data_logo_p_edit) , 3812}, 
+	{(uint8_t *)&(data_logo_shichiyo) , 13668}, 
+	{(uint8_t *)&(data_logo_steam) , 637}, 
+	{(uint8_t *)&(data_logo_tabletitle1) , 2972}, 
+	{(uint8_t *)&(data_logo_tabletitle2) , 2317}, 
+	{(uint8_t *)&(data_logo_tabletitle3) , 2191}, 
+	{(uint8_t *)&(data_logo_tabletitle4) , 2919}, 
+	{(uint8_t *)&(data_logo_tabletitle5) , 1141}, 
+	{(uint8_t *)&(data_logo_timer1) , 4994}, 
+	{(uint8_t *)&(data_logo_timer2) , 3860}, 
+	{(uint8_t *)&(data_logo_uh) , 2525}, 
+	{(uint8_t *)&(data_logo_u_heater) , 2371}, 
+	{(uint8_t *)&(data_logo_u_or_l) , 27}, 
+	{(uint8_t *)&(data_logo_u_or_l_l) , 27}, 
+	{(uint8_t *)&(data_logo_u_or_l_s) , 27}, 
+	{(uint8_t *)&(data_lowercase_a_off) , 2892}, 
+	{(uint8_t *)&(data_lowercase_a_on) , 2892}, 
+	{(uint8_t *)&(data_lowercase_b_off) , 5614}, 
+	{(uint8_t *)&(data_modeselect_a_off) , 1229}, 
+	{(uint8_t *)&(data_modeselect_a_on) , 1762}, 
+	{(uint8_t *)&(data_modeselect_b_off) , 1213}, 
+	{(uint8_t *)&(data_modewindow_b) , 1343}, 
+	{(uint8_t *)&(data_modewindow_g) , 1585}, 
+	{(uint8_t *)&(data_modewindow_r) , 1526}, 
+	{(uint8_t *)&(data_morning_a_off) , 5346}, 
+	{(uint8_t *)&(data_morning_a_on) , 5346}, 
+	{(uint8_t *)&(data_m_select_a_off) , 6084}, 
+	{(uint8_t *)&(data_m_select_a_on) , 6060}, 
+	{(uint8_t *)&(data_namechange_a_off) , 5594}, 
+	{(uint8_t *)&(data_namechange_a_on) , 6403}, 
+	{(uint8_t *)&(data_namechange_b_off) , 5566}, 
+	{(uint8_t *)&(data_namechange_s_off) , 4952}, 
+	{(uint8_t *)&(data_namechange_s_on) , 5665}, 
+	{(uint8_t *)&(data_noticeselect_a_off) , 5476}, 
+	{(uint8_t *)&(data_noticeselect_a_on) , 6218}, 
+	{(uint8_t *)&(data_noticeselect_b_off) , 5500}, 
+	{(uint8_t *)&(data_noticeselect_b_on) , 6225}, 
+	{(uint8_t *)&(data_n_damper_a_off) , 6598}, 
+	{(uint8_t *)&(data_n_damper_a_on) , 6598}, 
+	{(uint8_t *)&(data_n_damper_b_off) , 12582}, 
+	{(uint8_t *)&(data_n_damper_b_on) , 12582}, 
+	{(uint8_t *)&(data_option_a_off) , 4440}, 
+	{(uint8_t *)&(data_option_a_on) , 4440}, 
+	{(uint8_t *)&(data_recipe_a_off) , 5355}, 
+	{(uint8_t *)&(data_recipe_a_on) , 5355}, 
+	{(uint8_t *)&(data_recipe_c_off) , 3850}, 
+	{(uint8_t *)&(data_return_a_off) , 2804}, 
+	{(uint8_t *)&(data_return_a_on) , 2684}, 
+	{(uint8_t *)&(data_return_b_off) , 2776}, 
+	{(uint8_t *)&(data_return_b_on) , 2812}, 
+	{(uint8_t *)&(data_right1_a_off) , 1174}, 
+	{(uint8_t *)&(data_right1_a_on) , 1174}, 
+	{(uint8_t *)&(data_right2_a_off) , 1603}, 
+	{(uint8_t *)&(data_right2_a_on) , 1603}, 
+	{(uint8_t *)&(data_sampleb_button_off) , 3554}, 
+	{(uint8_t *)&(data_sampleb_button_on) , 3554}, 
+	{(uint8_t *)&(data_sample_button_off) , 2601}, 
+	{(uint8_t *)&(data_sample_button_on) , 2601}, 
+	{(uint8_t *)&(data_Sample_ex) , 5420}, 
+	{(uint8_t *)&(data_Sample_ex2) , 5411}, 
+	{(uint8_t *)&(data_select_a_off) , 1545}, 
+	{(uint8_t *)&(data_select_a_on) , 1521}, 
+	{(uint8_t *)&(data_select_b_off) , 1545}, 
+	{(uint8_t *)&(data_select_b_on) , 1553}, 
+	{(uint8_t *)&(data_skip_a_off) , 5014}, 
+	{(uint8_t *)&(data_skip_a_on) , 5014}, 
+	{(uint8_t *)&(data_start_a_off) , 5706}, 
+	{(uint8_t *)&(data_start_a_on) , 5706}, 
+	{(uint8_t *)&(data_start_b_off) , 11918}, 
+	{(uint8_t *)&(data_start_c_off) , 4054}, 
+	{(uint8_t *)&(data_steam_a_off) , 3744}, 
+	{(uint8_t *)&(data_steam_a_on) , 3744}, 
+	{(uint8_t *)&(data_steam_b_off) , 7771}, 
+	{(uint8_t *)&(data_tab_a_off) , 457}, 
+	{(uint8_t *)&(data_tab_a_on) , 891}, 
+	{(uint8_t *)&(data_tab_b_off) , 457}, 
+	{(uint8_t *)&(data_under_a_off) , 510}, 
+	{(uint8_t *)&(data_under_a_on) , 510}, 
+	{(uint8_t *)&(data_uppercase_a_off) , 3488}, 
+	{(uint8_t *)&(data_uppercase_a_on) , 3488}, 
+	{(uint8_t *)&(data_uppercase_b_off) , 6286}, 
+};

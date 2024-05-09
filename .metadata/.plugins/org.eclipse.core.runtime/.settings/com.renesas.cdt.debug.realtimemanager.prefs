@@ -1,0 +1,2 @@
+eclipse.preferences.version=1
+prefRealtimeExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<realtimeExpressions>\r\n    <expression text\="t.mns"/>\r\n    <expression text\="h.b_t_sts"/>\r\n    <expression text\="h.manual_first_counter"/>\r\n    <expression text\="a.code_name[0]"/>\r\n    <expression text\="cl.m_select"/>\r\n    <expression text\="mode.layer[0]"/>\r\n    <expression text\="cl.code_no_select"/>\r\n    <expression text\="p.uh_mode[0]"/>\r\n    <expression text\="p.lh_mode[0]"/>\r\n</realtimeExpressions>\r\n

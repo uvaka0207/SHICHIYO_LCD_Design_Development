@@ -1,0 +1,149 @@
+﻿#ifndef	_SETTING_H
+#define	_SETTING_H
+#include "br24lxx.h"
+
+
+// 設定データ構造体のバージョン（数値を変更するとデータが初期化される）
+#define SETTING_VERSION		1
+
+
+// パラメータデータ構造体のバージョン（数値を変更するとデータが初期化される）
+#define PARAMETER_VERSION	1
+
+// 設定データやパラメータのEEPROMの先頭アドレス
+#define		EEPROM_HARF  (EEPROM_SIZE / 2)
+
+#define		SAVE_ADD_UPDATE				0
+
+#define		SAVE_ADD_SYSTEM1			32
+#define		SAVE_ADD_SYSTEM2			EEPROM_HARF + 32
+
+#define		SAVE_ADD_TOUCH_CAL1			128
+#define		SAVE_ADD_TOUCH_CAL2			EEPROM_HARF + 128
+
+
+#define		SAVE_ADD_SETTING1			256
+#define		SAVE_ADD_SETTING2			EEPROM_HARF + 256
+
+#define		SAVE_ADD_PARAMETER1			1024
+#define		SAVE_ADD_PARAMETER2			EEPROM_HARF + 1024
+
+
+
+
+
+// 機種毎の設定データの設定を記述する。
+
+/*
+ *		注意 ここのコードを変更するときはsetting.cの内容も同時に変更すること 
+ */
+
+// 設定データ
+enum SETTING_DATA{
+
+    SETTING_DATA_MAX,            /* データの最後 */
+};
+
+
+
+// パラメータデータ
+enum PARAMETER_DATA{
+
+    PARAMETER_DATA_MAX,            /* データバージョン */
+
+};
+
+
+
+// 設定値関連の関数のプロトタイプ宣言
+extern void SettingDataSave(void);									// 設定値をEEPROMに保存する関数
+extern void Set_DefaultData(void);									// 設定値を初期化する関数
+extern int GetSettingData(enum SETTING_DATA id);					// 設定値を取得する関数
+extern int SetSettingData(enum SETTING_DATA id,int num);			// 設定値を設定する関数
+extern int CheckSettingData(void);									// 設定値の範囲を確認する関数
+extern int GetSettingMax(enum SETTING_DATA id);						// 設定値の最大値を取得する
+extern int GetSettingMin(enum SETTING_DATA id);						// 設定値の最小値を取得する
+
+
+// パラメータ関連の関数のプロトタイプ宣言
+extern void ParameterDataSave(void);								// パラメータをEEPROMに保存する関数
+extern void Set_DefaultParameterData(void);							// パラメータを初期化する関数
+extern int GetParameterData(enum PARAMETER_DATA id);				// パラメータを取得する関数
+extern float GetParameterDataFloat(enum PARAMETER_DATA id);
+extern int SetParameterData(enum PARAMETER_DATA id,int data);		// パラメータを設定する関数
+extern int CheckParameterData(void);								// パラメータの範囲を確認する関数
+extern int GetParameterMax(enum PARAMETER_DATA id);					// パラメータの最大値を取得する
+extern int GetParameterMin(enum PARAMETER_DATA id);					// パラメータの最小値を取得する
+extern int GetParameterDefault(enum PARAMETER_DATA id);
+extern int GetParameterDig(enum PARAMETER_DATA id);					// パラメータの小数点以下の値を取得する
+
+
+// 共通の関数のプロトタイプ宣言
+extern void SettingDataSaveCtrl(void);					// 常に関数をコールする。
+extern void SettingDataLoad(void);						// 起動時に一度だけコールする。
+
+// システムデータのプロトタイプ宣言
+extern void SystemDataSave(void);									// システムデータの保存の処理(作成中)
+
+
+void StatusDataSave(void);
+void ErrhistoryDataSave(void);
+void RoboDataSave(void);
+void ErrHistoryAdd(int robo_id , int err_id);
+
+/* 
+ *		アップデート情報
+ */
+struct update_struct
+{
+	int update;
+	int update_type;
+	int file_size;
+	uint32_t chk_sum;
+};
+/*
+ *		システムデータ
+ */
+struct system_struct
+{
+	
+	uint8_t system_data;
+	
+};
+/*
+ *		保存用データ
+ */
+struct setting_struct
+{
+	// 共通設定データ保存用
+	int16_t data[SETTING_DATA_MAX + 1];		// 設定項目
+	
+	// 機種毎の設定データを保存用
+};
+
+/*
+ *		パラメータ用データ
+ */
+struct parameter_struct
+{
+	int data[PARAMETER_DATA_MAX + 1];		// 設定項目
+	uint8_t check_space;					// データオーバーフロー確認エリア
+};
+
+/*
+ *		パラメータ用データ
+ */
+struct parameter_struct_backup
+{
+	int data[16];							// 設定項目
+	uint8_t check_space;					// データオーバーフロー確認エリア
+};
+
+
+
+
+extern struct system_struct system;
+extern struct setting_struct setting;
+extern struct parameter_struct parameter;
+
+#endif

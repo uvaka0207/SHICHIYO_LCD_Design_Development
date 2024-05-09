@@ -1,0 +1,413 @@
+﻿/*
+ *  Copyright (C) 2003-04 INX Corporation. All rights reserved.
+ *  @(#) $Id: setting.c,v 1.1 2019/09/02 12:38:26 satou Exp $
+ */
+#include "common.h"
+#include "setting.h"
+#include "eep_rw.h"
+#include <string.h>
+#include "serial_flash.h"
+#include "sf_system.h"
+#include "touch_ctrl.h"
+
+struct system_struct system;								// システムデータ
+struct setting_struct setting;								// 設定データ
+struct parameter_struct parameter;							// パラメータデータ
+
+struct
+{
+	int8_t data_save_count;
+	int8_t parameter_save_count;
+	int8_t parameter_backup_save_count;
+	int8_t status_save_count;
+	int8_t errhistory_save_count;
+	int8_t robo_save_count[2];
+	time_t timer;
+}setting_info;
+
+#define DATA_SAVE_COUNT1			10					// データ変更後から1回目のデータを保存するタイミングを指定する （100msec単位）0は指定不可
+#define DATA_SAVE_COUNT2			20					// データ変更後から2回目のデータを保存するタイミングを指定する （100msec単位）0は指定不可
+
+
+//		設定値の最小値、最大値、初期値を記述する。
+struct setting_start_struct{
+	int min;				// 最小値
+	int max;				// 最大値
+};
+
+const struct setting_start_struct SettingData[SETTING_DATA_MAX + 1 ] = {
+//   最小値,最大値
+
+		{0,100},    /* データの最後 */
+
+
+};
+
+
+// 設定データの初期値
+int16_t SettingDataDefault[SETTING_DATA_MAX + 1 ] =
+{
+
+		SETTING_VERSION,    /* データの最後 */
+
+};
+
+
+//		パラメータの最小値、最大値、小数点以下の桁数を記述する。
+const struct {
+	int min;				// 最小値
+	int max;				// 最大値
+	int dig;				// 小数点以下桁数
+	wchar_t number[6];	// パラメータ番号名
+}ParameterData[PARAMETER_DATA_MAX + 1] =
+{
+ {0,9999,0,L""},    /* データバージョン */
+
+};
+// パラメータの初期値
+int ParameterDataDefault[PARAMETER_DATA_MAX + 1 ] =
+{
+
+ PARAMETER_VERSION,    /* データバージョン */
+
+};
+
+
+
+
+/*
+ *		設定データ保存
+ */
+void SettingDataSave(void)
+{
+	setting_info.data_save_count = DATA_SAVE_COUNT2;
+}
+/*
+ *		パラメータデータ保存
+ */
+void ParameterDataSave(void)
+{
+	setting_info.parameter_save_count = DATA_SAVE_COUNT2;
+}
+
+/*
+ *		設定データを初期値にする
+ */
+void Set_DefaultData(void)
+{
+	int i;
+	// 標準的な初期値を設定する。 機種分け等がある場合はパラメータの初期値を追加する。
+	for(i = 0;i <= SETTING_DATA_MAX; i++){
+		setting.data[i] = SettingDataDefault[i];															// 設定データを初期化
+	}
+
+	// 特殊な設定値に初期化する場合はこの先にて初期化処理を記述します。
+
+
+
+	SettingDataSave();																					// 設定値の保存予約
+}
+
+/*
+ *		設定データを取得する
+ */
+int GetSettingData(enum SETTING_DATA id)
+{
+	if(id <= SETTING_DATA_MAX){
+		return setting.data[id];
+	}else{
+		return 0;
+	}
+	
+}
+
+/*
+ *		設定データを変更する。
+ *		0:変更されなかった  1:変更された  -1:不正なIDが入力された
+ */
+int SetSettingData(enum SETTING_DATA id , int num)
+{
+	if(id <= SETTING_DATA_MAX){
+		if(setting.data[id] != num && num >= SettingData[id].min && num <= SettingData[id].max){		// データに変更がある場合
+			setting.data[id] = num;																		// データを保存する
+			SettingDataSave();																			// 設定値の保存予約
+			return 1;
+		}else{
+			return 0;
+		}
+	}else{
+		return -1;
+	}
+}
+
+/*
+ *		設定データの範囲を確認
+ */
+int CheckSettingData(void)
+{
+	int i;
+	for(i = 0 ; i <= SETTING_DATA_MAX ; i++)
+	{
+		if(setting.data[i] < SettingData[i].min || setting.data[i] > SettingData[i].max)
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+/*
+ *		設定値の最大値を取得する
+ */
+int GetSettingMax(enum SETTING_DATA id)
+{
+	// 他のパラメータ等によって最大値が変わる場合はここに記述する
+	// 但し、起動時の読み込み処理では標準の最大値を使用している為、標準の最大値を超えないように注意すること
+	// 例:
+	//	if(id == SETTING_TEMP){
+	//		return GetParameterData(PARAMETER_01);			// 設定温度はパラメータ1を最大値とする。
+	//	
+	//
+	//	}
+	//
+	
+
+	// 標準の最大値を読み込む場合
+	if(id <= SETTING_DATA_MAX){
+		return SettingData[id].max;
+	}
+	return 0;
+}
+/*
+ *		設定値の最小値を取得する
+ */
+int GetSettingMin(enum SETTING_DATA id)
+{
+	// 他のパラメータ等によって最小値が変わる場合はここに記述する
+	// 但し、起動時の読み込み処理では標準の最小値を使用している為、標準の最小値を超えないように注意すること
+
+
+
+	// 標準の最小値を読み込む場合
+	if(id <= SETTING_DATA_MAX){
+		return SettingData[id].min;
+	}
+	return 0;
+}
+/*
+ *		パラメータの初期値を取得する
+ */
+int GetParameterDefault(enum PARAMETER_DATA id)
+{
+
+	if(id <= PARAMETER_DATA_MAX){
+		return ParameterDataDefault[id];
+	}
+	return 0;
+}
+/*
+ *		パラメータデータを初期値にする
+ */
+void Set_DefaultParameterData(void)
+{
+	// 標準のパラメータの初期値に初期化します。 機種分け等がある場合はパラメータの初期値を追加する。
+	int i;
+	for(i = 2 ;i <= PARAMETER_DATA_MAX; i++){			// ※ 機種データと機番は初期化の対象外
+		parameter.data[i] = GetParameterDefault(i);
+	}
+	ParameterDataSave();
+}
+
+/*
+ *		パラメータデータを取得する
+ */
+int GetParameterData(enum PARAMETER_DATA id)
+{
+	if(id <= PARAMETER_DATA_MAX){
+		return parameter.data[id];
+	}else{
+		return 0;
+	}
+	
+}
+/*
+ *		パラメータデータを取得する
+ */
+float GetParameterDataFloat(enum PARAMETER_DATA id)
+{
+	if(id <= PARAMETER_DATA_MAX){
+		int work;
+		work = parameter.data[id];
+		if(ParameterData[id].dig == 1){
+			return work / 10.0F;
+		}else if(ParameterData[id].dig == 2){
+			return work / 100.0F;
+		}else if(ParameterData[id].dig == 3){
+			return work / 1000.0F;
+		}else if(ParameterData[id].dig == 4){
+			return work / 10000.0F;
+		}else if(ParameterData[id].dig == 5){
+			return work / 100000.0F;
+		}else if(ParameterData[id].dig == 6){
+			return work / 1000000.0F;
+		}else{
+			return work;
+		}
+	}else{
+		return 0;
+	}
+	
+}
+
+/*
+ *		パラメータデータを設定
+ *		0:変更されなかった  1:変更された  -1:不正なIDが入力された
+ */
+int SetParameterData(enum PARAMETER_DATA id,int data)
+{
+	if(id <= PARAMETER_DATA_MAX){
+
+		if(parameter.data[id] != data && data >= ParameterData[id].min && data <= ParameterData[id].max){
+			parameter.data[id] = data;
+			ParameterDataSave();
+
+			return 1;
+		}else{
+			return 0;
+		}
+	}else{
+		return -1;
+	}
+	
+}
+
+/*
+ *		パラメータデータの範囲を確認
+ */
+int CheckParameterData(void)
+{
+	int i;
+	for(i = 0 ; i <= PARAMETER_DATA_MAX ; i++)
+	{
+		if(parameter.data[i] < ParameterData[i].min || parameter.data[i] > ParameterData[i].max)
+		{
+			return 0;
+		}
+		
+	}
+	return 1;
+}
+
+/*
+ *		パラメータの最大値を取得する
+ */
+int GetParameterMax(enum PARAMETER_DATA id)
+{
+	// 他のパラメータ等によって最大値が変わる場合はここに記述する
+	// 但し、起動時の読み込み処理では標準の最大値を使用している為、標準の最大値を超えないように注意すること
+	// ここでは設定データを使用しないこと
+	// 例:
+	//	if(id == PARAMETER_01){
+	//		return GetParameterData(PARAMETER_02);			// パラメータ1はパラメータ2を最大値とする。
+	//	
+	//
+	//	}
+	//
+	
+	
+	
+	// 標準の最大値を読み込む場合
+	
+	if(id <= PARAMETER_DATA_MAX){
+		return ParameterData[id].max;
+	}
+	return 0;
+}
+/*
+ *		パラメータの最小値を取得する
+ */
+int GetParameterMin(enum PARAMETER_DATA id)
+{
+	// 他のパラメータ等によって最小値が変わる場合はここに記述する
+	// 但し、起動時の読み込み処理では標準の最小値を使用している為、標準の最小値を超えないように注意すること
+	// ここでは設定データを使用しないこと
+
+
+	// 標準の最小値を読み込む場合
+	if(id <= PARAMETER_DATA_MAX){
+		return ParameterData[id].min;
+	}
+	return 0;
+}
+
+/*
+ *		パラメータの最小値を取得する
+ */
+int GetParameterDig(enum PARAMETER_DATA id)
+{
+
+	// 標準の最小値を読み込む場合
+	if(id <= PARAMETER_DATA_MAX){
+		return ParameterData[id].dig;
+	}
+	return 0;
+}
+
+
+
+
+/*
+ *		システムデータを保存する処理(チェクプロで読み込む)
+ */
+void SystemDataSave(void)
+{
+	data_write((uint8_t *)&system,SAVE_ADD_SYSTEM1,sizeof(system));
+	data_write((uint8_t *)&system,SAVE_ADD_SYSTEM2,sizeof(system));
+	while(eep_get_status() > 0){
+		wd_flag_set();
+		eep_handle();
+	}
+
+
+
+}
+
+
+/*
+ *		データを保存する処理
+ */
+void SettingDataSaveCtrl(void)
+{
+
+	eep_handle();
+}
+
+
+/*
+ *		基板起動時にデータを読み込みする処理
+ */
+void SettingDataLoad(void)
+{
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+﻿#ifndef		_SF_SYSTEM_H
+#define		_SF_SYSTEM_H
+
+#include "stdinx.h"
+
+//------------------------------------------------------------------------------
+// 外部参照変数宣言
+//------------------------------------------------------------------------------
+
+extern void sfsys_init(void);
+extern int sfsys_flash_read(uint32_t address, uint8_t *buf, uint16_t size);
+extern int sfsys_flash_write(uint32_t address, uint8_t *buf, uint16_t size);
+int sfsys_flash_page_read(uint32_t block_id , int page_id ,  uint8_t buf[], uint16_t size);
+int sfsys_flash_page_write(uint32_t block_id , int page_id ,  uint8_t buf[], uint16_t size);
+
+int sfsys_flash_block_erase(uint32_t block_id);
+
+#endif		// _SF_SYSTEM_H
+

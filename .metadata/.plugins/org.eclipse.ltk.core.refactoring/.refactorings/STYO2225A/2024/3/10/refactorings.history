@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="リソース名を &apos;STYO2225A/src/mode/mode_key00.c&apos; から &apos;mode_key.c&apos; に変更します" description="リソース &apos;mode_key00.c&apos; の名前変更" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/mode/mode_key00.c" name="mode_key.c" stamp="1709897530030" updateReferences="true"/>&#x0A;<refactoring comment="リソース名を &apos;STYO2225A/src/mode/mode_key.c&apos; から &apos;mode_key00.c&apos; に変更します" description="リソース &apos;mode_key.c&apos; の名前変更" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/mode/mode_key.c" name="mode_key00.c" stamp="1709900416221" updateReferences="true"/>
+</session>

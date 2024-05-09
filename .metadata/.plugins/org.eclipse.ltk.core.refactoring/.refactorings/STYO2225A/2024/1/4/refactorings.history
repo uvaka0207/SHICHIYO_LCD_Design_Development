@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="リソース名を &apos;STYO2225A/HardwareDebug/makefile&apos; から &apos;makefile_old&apos; に変更します" description="リソース &apos;makefile&apos; の名前変更" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="HardwareDebug/makefile" name="makefile_old" stamp="1706156995526" updateReferences="true"/>
+</session>

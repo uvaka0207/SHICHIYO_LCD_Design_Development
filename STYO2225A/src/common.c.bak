@@ -1,0 +1,193 @@
+#define GLOBAL_DEFINE
+#include "common.h"
+#include "graphics_ctrl.h"
+#include "touch_check.h"
+#include "debug.h"
+#include "rx4803sa.h"
+#include "touch_ctrl.h"
+#include "font/font.h"
+
+ram_manual_parameter m;
+ram_auto_parameter a;
+ram_timer t;
+home_parameter h;
+layer_temp_parameter l_temp;
+layer_time_parameter l_time;
+
+void GlobalInitialize(void){
+	m.time_minute_m = 0;
+	m.time_second_m = 0;
+	m.uh_temp_m = 0;
+	m.lh_temp_m = 0;
+	m.uh_mode_m = HIGH;
+	m.lh_mode_m = HIGH;
+	m.damper_sts_m = D_CLOSE;
+
+	for (int i = 0; i < CODE_LIST_MAX_SIZE; i++) {
+		wmemset(a.code_name[i], L'\0', CODE_NAME_MAX_SIZE);
+		a.process_max[i] = 0;
+		a.warmup_buzzer[i] = STS_TRUE;
+		a.process_change[i] = S_AUTO;
+		for ( int j = 0; j < PROCESS_MAX_SIZE_ZERO_OFF; j++){
+			a.time_minute[i][j]=0;
+			a.time_second[i][j]=0;
+			a.core_temp_sts[i][j]=STS_NONE;
+			a.steam_sts[i][j]=STS_NONE;
+		}
+		for ( int j = 0; j < PROCESS_MAX_SIZE_ZERO_ON; j++){
+			a.uh_temp[i][j]=0;
+			a.lh_temp[i][j]=0;
+			a.uh_mode[i][j]=HIGH;
+			a.lh_mode[i][j]=HIGH;
+			a.damper_sts[i][j]=D_CLOSE;
+		}
+	}
+
+	t.process_sw_timer = 2000UL;
+	t.steam_timer = 3000UL;
+
+	h.code_no_now = 1;
+	wmemset(h.code_name_now, L'\0', CODE_NAME_MAX_SIZE);
+	wmemcpy(h.code_name_now, L"手動運転", wcslen(L"手動運転"));
+	h.process_now = 0;
+	h.process_max = 0;
+	h.time_minute_set = 0;
+	h.time_second_set = 0;
+	h.time_minute_now = 0;
+	h.time_second_now = 0;
+	h.uh_temp_set = 0;
+	h.lh_temp_set = 0;
+	h.uh_temp_now = 0;
+	h.lh_temp_now = 0;
+	h.warmup_temp = 10;
+	h.select_m_a = S_MANUAL;
+	h.uh_mode_now = HIGH;
+	h.lh_mode_now = HIGH;
+	h.b_t_sts = BTS_NONE;
+	h.start_sts = SS_NONE;
+	h.damper_sts_now = D_CLOSE;
+	h.core_temp_sts_now = STS_NONE;
+	h.steam_sts_now = STS_NONE;
+	h.lamp_sts = STS_NONE;
+	h.clear_sts = STS_NONE;
+	h.buzzer_sts = STS_NONE;
+	h.recipe_sts = STS_NONE;
+	h.eco_sts = STS_NONE;
+	h.popup_temp_sts = STS_NONE;
+	h.popup_time_sts = STS_NONE;
+	h.dl_sts = DL_OPEN;
+	h.auto_count = get_sys_timer();
+	h.process_count = get_sys_timer();
+	h.steam_count = get_sys_timer();
+
+	l_temp.uh_temp_prov = 0;
+	l_temp.lh_temp_prov = 0;
+	l_temp.uh_mode_prov = HIGH;
+	l_temp.lh_mode_prov = HIGH;
+
+	l_time.time_minute_prov = 0;
+	l_time.time_second_prov = 0;
+
+	wmemset(k.code_name_prov, L'\0', CODE_NAME_MAX_SIZE);
+	k.flicker_count = 0;
+	k.title_bar_sts = STS_NONE;
+	k.title_bar_point = 0;
+
+	cl.page_no = 0;
+	cl.code_no_select = 0;
+	cl.m_select = MODE_ENTER;
+	cl.m_window = STS_NONE;
+}
+
+void TextImput(wchar_t *word1, wchar_t *word2, int number) {
+
+	// "word1"に"word2"を追加する
+	// "number"の数によって、"word2"の入力箇所が変化する
+	//10文字以上の入力にはならないようにする
+
+	wchar_t code_name_prov_f[CODE_NAME_MAX_SIZE];	//文字列間に文字を打つ際の仮保管(前)
+	wchar_t code_name_prov_r[CODE_NAME_MAX_SIZE];	//文字列間に文字を打つ際の仮保管(後)
+	wmemset(code_name_prov_f, L'\0', CODE_NAME_MAX_SIZE);
+	wmemset(code_name_prov_r, L'\0', CODE_NAME_MAX_SIZE);
+
+	if (wcslen(word1) + wcslen(word2) >= CODE_NAME_MAX_SIZE) {	//文字列を足した結果バッファサイズより大きくなる場合は足さない
+	}
+	else {
+		if (number > wcslen(word1)) {
+			number = wcslen(word1);
+		}
+		wcsncpy(code_name_prov_f, word1, wcslen(word1) - number);			// 保管(前)にnumberの前のデータをコピー(コピー先はNULL文字で埋まっているため終端文字を気にしない)
+		wcsncpy(code_name_prov_r, &word1[wcslen(word1) - number], number);	// 保管(後)にnumberの後のデータをコピー(コピー先はNULL文字で埋まっているため終端文字を気にしない)
+		wmemset(word1, L'\0', CODE_NAME_MAX_SIZE);	// word1を一旦初期化
+		wcscat(word1, code_name_prov_f);			// 3つの文字列を連結する。
+		wcscat(word1, word2);
+		wcscat(word1, code_name_prov_r);
+	}
+}
+
+
+
+
+struct info_struct info;
+struct err_struct err;
+
+void clock_ctrl(void)
+{
+	static time_t timer;
+	if(wait_timeout(1000UL , timer)){
+		timer = get_sys_timer();
+		int week = 0;
+		RTC_get_date_long(&info.year , &info.month , &info.day , &week , &info.hour , &info.minute , &info.second);
+		info.clock_sec = time_to_sec(info.year ,info.month ,info.day ,info.hour ,info.minute ,info.second);
+		info.week = get_week(info.year,info.month,info.day);
+
+	}
+
+}
+
+int Main_Task(void)
+{
+	int x;
+	int y;
+	time_t timer;
+	SetPriority(5);
+
+	// チェック端子確認
+//	timer = get_sys_timer();
+//	while(I_CH()){
+//		if(wait_timeout(200UL,timer)){
+//			diag_ctrl();										//
+//		}
+//	}
+	Sleep(1000);
+
+	if(RTC_init()== 1)
+	{
+		RTC_set_date_long(2023,1,1,0,0,0,0);
+	}
+	RTC_get_date_long(&info.year , &info.month , &info.day , &info.week , &info.hour , &info.minute , &info.second);
+	SettingDataLoad();											// 設定データのロード
+
+	change_mode(MODE_HOME);
+	touch_enable();
+
+
+	while(1){
+
+
+		// メイン処理
+		touch_check_obj();					// タッチの動作
+
+		mode_ctrl();
+		obj_redraw();						// 画面更新処理
+		quick_redraw_run();					// 画面更新処理
+		SettingDataSaveCtrl();				// データ保存処理
+		clock_ctrl();						// 時計取得処理
+		FontSerchDataCtrl();				// フォントの検索データの整理
+
+		wd_flag_set();						// ループチェック
+		Interval(10);
+	}
+}
+
+

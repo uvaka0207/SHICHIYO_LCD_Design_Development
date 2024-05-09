@@ -1,0 +1,11 @@
+09:05:16 **** プロジェクト STYO2225A に対する構成 HardwareDebug の 逐次ビルド ****
+make -r --output-sync -j20 all 
+Building file: ../src/layer/layer_L_DETAIL00.c
+Building target: STYO2225A.elf
+c:/renesas/e2_studio/eclipse/plugins/com.renesas.ide.exttools.busybox.win32.x86_64_1.3.6.v20230615-0931/bin//sh: STYO2225A.elf: Permission denied
+format=berkeley "STYO2225A.elf"
+make: [makefile:100: STYO2225A.siz] Error 126 (ignored)
+arm-none-eabi-objcopy -O srec "STYO2225A.elf"  "STYO2225A.srec"
+
+09:05:18 Build Finished. 0 errors, 0 warnings. (took 1s.664ms)
+

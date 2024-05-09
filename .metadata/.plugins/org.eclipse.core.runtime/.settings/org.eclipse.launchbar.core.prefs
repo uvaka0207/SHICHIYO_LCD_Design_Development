@@ -1,0 +1,8 @@
+LaunchTargetManager/configs/STYO2225A\ HardwareDebug=null\:---
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,\u30ED\u30FC\u30AB\u30EB/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,\u30ED\u30FC\u30AB\u30EB/name=\u30ED\u30FC\u30AB\u30EB
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,\u30ED\u30FC\u30AB\u30EB/os=win32
+com.renesas.cdt.launch.dsf.launching.gdbLocalLaunchDescriptorType\:STYO2225A\ HardwareDebug/activeLaunchMode=debug
+com.renesas.cdt.launch.dsf.launching.gdbLocalLaunchDescriptorType\:STYO2225A\ HardwareDebug/activeLaunchTarget=null\:---
+configDescList=com.renesas.cdt.launch.dsf.launching.gdbLocalLaunchDescriptorType\:STYO2225A_HardwareDebug,com.renesas.cdt.launch.dsf.launching.gdbLocalLaunchDescriptorType\:STYO2225A HardwareDebug
+eclipse.preferences.version=1
